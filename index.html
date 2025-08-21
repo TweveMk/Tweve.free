@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>TWEVE LIVE TV FREE</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <div id="dt_contenedor">
+        <div class="page-header">
+            <h1>TWEVE LIVE TV FREE</h1>
+        </div>
+
+        <div id="player-container">
+            <video id="video" controls></video>
+        </div>
+
+        <!-- Sports Channels -->
+        <div class="channel-section">
+            <h2>Sports</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://spstr.abntv.live/hls/psstream.m3u8" data-alt="Sports TV">
+                    <img decoding="async" src="https://img.freepik.com/premium-vector/soccer-television-logo-template-design_316488-547.jpg?semt=ais_hybrid&w=740" alt="Sports TV" />
+                </div>
+                <div class="channel" data-src="https://origin3.afxp.telemedia.co.za/PremiumFree/sportsconnect/abr_satellitechannel/satch_sportsconnect_360p/chunks.m3u8" data-alt="Sport Connect">
+                    <img decoding="async" src="https://sportsconnect.uk/wp-content/uploads/2024/04/Blue-Modern-Geometric-Initials-X-with-Home-Real-Estate-Logo-6.png" alt="Sport Connect" />
+                </div>
+                <div class="channel" data-src="https://newproxy3.vidivu.tv/vidivu_afrosport/tracks-v1a1/mono.ts.m3u8" data-alt="Afro Sport Nigeria">
+                    <img decoding="async" src="https://imagecdn.websitebuilder.prositehosting.co.uk/15/c0/15c0fb9b-b930-48ff-8d8b-d967dde48a93.png" alt="Afro Sport Nigeria" />
+                </div>
+                <div class="channel" data-src="https://1180885077.rsc.cdn77.org/HLS/BOXINGTV_v0.m3u8" data-alt="Boxing TV">
+                    <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3RyYjwVRpBZ0clJiWO5ZYlwLzJryHHpKT3Q&s" alt="Boxing TV" />
+                </div>
+                <div class="channel" data-src="https://fl3.moveonjoy.com/NBA_TV/tracks-v1a1/mono.ts.m3u8" data-alt="NBA TV">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/images-8.png" alt="NBA TV" />
+                </div>
+                <div class="channel" data-src="https://fl3.moveonjoy.com/NFL_NETWORK/tracks-v1a1/mono.ts.m3u8" data-alt="NFL Network">
+                    <img decoding="async" src="https://static.www.nfl.com/image/private/f_auto/league/khjxu70iiu14uvxridek" alt="NFL Network" />
+                </div>
+                <div class="channel" data-src="https://livetv-fa.tubi.video/racing-america/playlistR240p.m3u8" data-alt="Racing America">
+                    <img decoding="async" src="https://yt3.ggpht.com/KJ6In-ckR9EEZbwwujO2SHG55NW3zb9RFPidkfk63yISw62kYIz_4R2QD6tN2jPg_x56m4tBhXQ=s900-c-k-c0x00ffffff-no-rj" alt="Racing America" />
+                </div>
+                <div class="channel" data-src="https://cdn.live.easybroadcast.io/abr_corp/73_arryadia_k2tgcj0/corp/73_arryadia_k2tgcj0_240p/chunks_dvr.m3u8" data-alt="Arryadia">
+                    <img decoding="async" src="https://yt3.ggpht.com/ZvdsfeYl_U-N1ECyfqJPWYYswIc9eHE6sVd2qP5sPq7cq0hm401BE_H6RYlju3V1juC9p_Cl=s900-c-k-c0x00ffffff-no-rj" alt="Arryadia" />
+                </div>
+            </div>
+        </div>
+
+        <!-- News Channels -->
+        <div class="channel-section">
+            <h2>News</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://live-hls-web-aje.getaj.net/AJE/index.m3u8" data-alt="Aljazeera">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/images-6.png" alt="Aljazeera" />
+                </div>
+                <div class="channel" data-src="https://sabconetanw.cdn.mangomolo.com/news/smil:news.stream.smil/chunklist_b250000_t64MjQwcA==.m3u8" data-alt="SABC News">
+                    <img decoding="async" src="https://yt3.ggpht.com/x5Bgc7UBYZvOHvp3UG91lZbV6ND0YCOi2a026vLPDGIU5GF2qp5JnHnCeLyPegWhEjM5njpN=s900-c-k-c0x00ffffff-no-rj" alt="SABC News" />
+                </div>
+                <div class="channel" data-src="https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/t=3840/v=pv14/b=5070016/main.m3u8" data-alt="BBC News">
+                    <img decoding="async" src="https://yt3.ggpht.com/v4JamQ9B-PUiJHjmZQs9UwTaoLQW8vijJMMpV5sPq7cq0hm401BE_H6RYlju3V1juC9p_Cl=s900-c-k-c0x00ffffff-no-rj" alt="BBC News" />
+                </div>
+                <div class="channel" data-src="https://bloomberg-bloomberg-3-br.samsung.wurl.tv/manifest/92ebf7f86a6f6e0663f032358ba58cd1.m3u8" data-alt="Bloomberg">
+                    <img decoding="async" src="https://m.media-amazon.com/images/I/31Ja06sm51L.png" alt="Bloomberg" />
+                </div>
+                <div class="channel" data-src="https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8" data-alt="CNN">
+                    <img decoding="async" src="https://cdn-1.webcatalog.io/catalog/cnn-international/cnn-international-icon-unplated.png?v=1716987984587" alt="CNN" />
+                </div>
+                <div class="channel" data-src="https://edge12.vedge.infomaniak.com/livecast/ik:africa24/manifest.m3u8" data-alt="Africa 24">
+                    <img decoding="async" src="https://yt3.ggpht.com/ytc/AIdro_lCoQndMtEMGu-QzZQ7zI-FZeqOVvtaMxQvx9aCBzIJpg=s900-c-k-c0x00ffffff-no-rj" alt="Africa 24" />
+                </div>
+                <div class="channel" data-src="https://d1ewctnvcwvvvu.cloudfront.net/240p-cc/index.m3u8" data-alt="Yahoo Finance">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/images-22.jpg" alt="Yahoo Finance" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Entertainment Channels -->
+        <div class="channel-section">
+            <h2>Entertainment</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://goliveafrica.media:9998/live/625965017ed69/index.m3u8" data-alt="Dodoma TV">
+                    <img decoding="async" src="https://yt3.ggpht.com/tlIkQ73h3Zj3-ruMpfgCjvFyWJ6o2fUX7vMwU4omL4iTnjTUuSkK0n0c1XVVT_9MINuUuQlpXg=s900-c-k-c0x00ffffff-no-rj" alt="Dodoma TV" />
+                </div>
+                <div class="channel" data-src="https://origin3.afxp.telemedia.co.za/PremiumFree/romanza/abr_satellitechannel/satch_romanza_360p/chunks.m3u8" data-alt="Romanza+">
+                    <img decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Romanza%2B%C3%81frica_logo.jpg/250px-Romanza%2B%C3%81frica_logo.jpg" alt="Romanza+" />
+                </div>
+                <div class="channel" data-src="https://cdn.freevisiontv.co.za/sttv/smil:1kzn.stream.smil/chunklist_b480000.m3u8" data-alt="1KZN">
+                    <img decoding="async" src="https://starsat.co.za/wp-content/uploads/2023/08/1KZN-TV.png" alt="1KZN" />
+                </div>
+                <div class="channel" data-src="https://cdn.freevisiontv.co.za/sttv/smil:ctv.stream.smil/chunklist_b480000.m3u8" data-alt="CapeTown TV">
+                    <img decoding="async" src="https://capetowntv.org/wp-content/uploads/2023/01/cropped-Web-icon.png" alt="CapeTown TV" />
+                </div>
+                <div class="channel" data-src="https://cdn.freevisiontv.co.za/sttv/smil:soweto.stream.smil/chunklist_b480000.m3u8" data-alt="Soweto TV">
+                    <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:GcTHIRfIk1qiekejwXNifTZCXGm0hS1cLmxiqg&s" alt="Soweto TV" />
+                </div>
+                <div class="channel" data-src="https://apollo.production-public.tubi.io/live/ac-afv.m3u8" data-alt="Always Funny Videos">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/images-7.png" alt="Always Funny Videos" />
+                </div>
+                <div class="channel" data-src="https://streams2.sofast.tv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/06862a07-6a92-4b4d-abc3-5fea131713b5/42a1946c-9002-4b2b-b0cf-ac5a54946f7a/0.m3u8" data-alt="KIX">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/unnamed-1-1.jpg" alt="KIX" />
+                </div>
+                <div class="channel" data-src="https://apollo.production-public.tubi.io/live/ac-mr-beast.m3u8" data-alt="MR Beast">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/MrBeast-Logo-1.webp" alt="MR Beast" />
+                </div>
+                <div class="channel" data-src="https://ec3b4b7e.wurl.com/manifest/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X05FV0tNT1ZJRVNfSExT/348da8bd-839c-4e5e-ac5c-d053218f5fb5/2.m3u8" data-alt="Korean Movies">
+                    <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:GcTJwchmh5a03i13DkiCJzSL90CfAs0kxdcjPw&s" alt="Korean Movies" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Kids & Family Channels -->
+        <div class="channel-section">
+            <h2>Kids & Family</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://fl5.moveonjoy.com/DISNEY/tracks-v1a1/mono.ts.m3u8" data-alt="Disney Channel">
+                    <img decoding="async" src="https://yt3.ggpht.com/NyNEDUf6vZUw91UA78V8mbKfalM9ufJ2laC5FmPkofOAA6fW9aXRJvOEfeIUkAEI41Yax0xA=s900-c-k-c0x00ffffff-no-rj" alt="Disney Channel" />
+                </div>
+                <div class="channel" data-src="https://fl1.moveonjoy.com/NICKTOONS/tracks-v1a1/mono.m3u8" data-alt="NickToons">
+                    <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:GcRR6XxsgaPOn4kMq2LBgifIWwPIw7zBG5b4yw&s" alt="NickToons" />
+                </div>
+                <div class="channel" data-src="https://stmv1.srvif.com/gospelcartoon/gospelcartoon/playlist.m3u8" data-alt="Gospel Cartoon">
+                    <img decoding="async" src="https://www.cxtv.com.br/img/Tvs/Logo/webp-l/f0a3c3c7b9a651e847d86dd71bbb5551.webp" alt="Gospel Cartoon" />
+                </div>
+                <div class="channel" data-src="https://mbc-3-usa-ak.akamaized.net/out/v1/8bbfec9446d84c9ea0dfa34edede6db9/index.m3u8" data-alt="MBC 3">
+                    <img decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/MBC_3_Logo.svg/250px-MBC_3_Logo.svg.png" alt="MBC 3" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Lifestyle & Nature Channels -->
+        <div class="channel-section">
+            <h2>Lifestyle & Nature</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://fl1.moveonjoy.com/LOVE_NATURE/tracks-v1a1/mono.m3u8" data-alt="Love Nature">
+                    <img decoding="async" src="https://blueantmedia.com/wp-content/uploads/2020/01/brand_love-nature.jpg" alt="Love Nature" />
+                </div>
+                <div class="channel" data-src="https://dfhsahpa45kk2.cloudfront.net/scheduler/scheduleMaster/476/variant/22100055.m3u8" data-alt="Wild TV">
+                    <img decoding="async" src="https://yt3.ggpht.com/ZvdsfeYl_U-N1ECyfqJPWYYswIc9eHE6sVd2qP5sPq7cq0hm401BE_H6RYlju3V1juC9p_Cl=s900-c-k-c0x00ffffff-no-rj" alt="Wild TV" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Bollywood Channels -->
+        <div class="channel-section">
+            <h2>Bollywood</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://shls-mbcbollywood-prod-dub.shahid.net/out/v1/a79c9d7ef2a64a54a64d5c4567b3462a/index.m3u8" data-alt="MBC Bollywood">
+                    <img decoding="async" src="https://i1.sndcdn.com/avatars-000393801480-ppmlje-t1080x1080.jpg" alt="MBC Bollywood" />
+                </div>
+            </div>
+        </div>
+
+        <footer class="main">
+            <div class="fbox">
+                <div class="fcmpbox">
+                    <div class="copy">© 2025 by TWEVE LIVE TV. All Rights Reserved</div>
+                    <span class="top-page"><a href="#dt_contenedor">Back to Top</a></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
