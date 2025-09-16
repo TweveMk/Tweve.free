@@ -279,6 +279,30 @@ video {
     object-fit: cover;
 }
 
+/* Movie overlay actions */
+.movie-card {
+    position: relative;
+}
+.movie-actions {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 8px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+}
+.movie-actions button,
+.movie-actions a {
+    background: rgba(30,30,30,0.9);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 6px 10px;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
 /* Channel Grid */
 .channels {
     display: grid;

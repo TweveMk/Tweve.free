@@ -11,22 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
     const authAction = document.getElementById('authAction');
-    const rememberMe = document.getElementById('rememberMe');
+    // rememberMe removed: we now always persist once in localStorage
 
     function getStoredUser() {
         const persisted = localStorage.getItem('tw_user');
-        const session = sessionStorage.getItem('tw_user');
         try {
-            return persisted ? JSON.parse(persisted) : (session ? JSON.parse(session) : null);
+            return persisted ? JSON.parse(persisted) : null;
         } catch (e) {
             return null;
         }
     }
 
-    function setStoredUser(user, persist) {
+    function setStoredUser(user) {
         const data = JSON.stringify(user);
-        if (persist) localStorage.setItem('tw_user', data);
-        else sessionStorage.setItem('tw_user', data);
+        localStorage.setItem('tw_user', data);
     }
 
     function clearStoredUser() {
@@ -177,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginError.textContent = 'Please enter a valid phone number.';
                 return;
             }
-            setStoredUser({ username: username.trim(), phone: phone.trim() }, !!(rememberMe && rememberMe.checked));
+            setStoredUser({ username: username.trim(), phone: phone.trim() });
             updateAuthUI();
             showLogin(false);
             // Autoplay first channel after login
@@ -187,6 +185,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Movie action buttons
+    const moviePlays = document.querySelectorAll('.movie-card .movie-play');
+    moviePlays.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const card = btn.closest('.movie-card');
+            if (card) playStream(card.getAttribute('data-src'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    const movieDownloads = document.querySelectorAll('.movie-card .movie-download');
+    movieDownloads.forEach(a => {
+        a.addEventListener('click', (e) => {
+            // allow navigation but prevent bubbling to parent play
+            e.stopPropagation();
+        });
+    });
 
     // Initialize auth state
     updateAuthUI();
