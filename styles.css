@@ -239,6 +239,46 @@ video {
     text-align: left;
 }
 
+/* Netflix-style rows */
+.row {
+    margin: 18px 0 26px 0;
+}
+
+.row-title {
+    text-align: left;
+    margin: 6px 0 10px 2px;
+    color: #e5e5e5;
+    font-weight: 600;
+}
+
+.row-scroller {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 160px;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 2px 8px 2px;
+    scroll-snap-type: x mandatory;
+}
+
+.row-scroller::-webkit-scrollbar {
+    height: 8px;
+}
+.row-scroller::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+}
+
+.movie-card {
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    scroll-snap-align: start;
+}
+.movie-card img {
+    object-fit: cover;
+}
+
 /* Channel Grid */
 .channels {
     display: grid;
