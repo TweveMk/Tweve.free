@@ -133,12 +133,31 @@ document.addEventListener('DOMContentLoaded', () => {
         showLogin(false);
     });
 
-    // Menu link scroll
+    // Menu link scroll and category toggling
     const menuLinks = document.querySelectorAll('#sideMenu a[data-target]');
+    const liveSections = document.querySelectorAll('.category-live');
+    const movieSections = document.querySelectorAll('.category-movies');
+    const adultSections = document.querySelectorAll('.category-adult');
+
+    function setCategoryVisible(category) {
+        const hideAll = (nodes) => nodes.forEach(n => n.style.display = 'none');
+        const showAll = (nodes) => nodes.forEach(n => n.style.display = '');
+        hideAll(liveSections);
+        hideAll(movieSections);
+        hideAll(adultSections);
+        if (category === 'live-tv') showAll(liveSections);
+        if (category === 'movies') showAll(movieSections);
+        if (category === 'adult') showAll(adultSections);
+    }
+
+    // Default to Live TV on load
+    setCategoryVisible('live-tv');
+
     menuLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const target = link.getAttribute('data-target');
+            setCategoryVisible(target);
             const section = document.getElementById(target);
             if (section) {
                 section.scrollIntoView({ behavior: 'smooth', block: 'start' });

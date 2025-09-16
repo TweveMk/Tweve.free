@@ -231,6 +231,11 @@ video {
     padding: 0 20px;
 }
 
+/* Category visibility control */
+.category-live {}
+.category-movies {}
+.category-adult {}
+
 .channel-section h2 {
     font-size: 1.8rem;
     font-weight: 600;
