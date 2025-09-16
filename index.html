@@ -12,6 +12,47 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
+    <div id="topbar">
+        <button id="menuToggle" aria-label="Open menu">☰</button>
+        <div class="topbar-title">TWEVE</div>
+        <button id="authAction" aria-label="Login">Login</button>
+    </div>
+
+    <nav id="sideMenu" aria-hidden="true">
+        <div class="sideMenu-header">
+            <span>Categories</span>
+            <button id="menuClose" aria-label="Close menu">×</button>
+        </div>
+        <ul>
+            <li><a href="#movies" data-target="movies">Movies</a></li>
+            <li><a href="#games" data-target="games">Games</a></li>
+            <li><a href="#adult" data-target="adult">18+</a></li>
+        </ul>
+    </nav>
+    <div id="backdrop" hidden></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" aria-hidden="true" hidden>
+        <div class="modal-card">
+            <h3>Login</h3>
+            <form id="loginForm">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter username" required />
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g. +2348012345678" required />
+
+                <label class="remember">
+                    <input type="checkbox" id="rememberMe" checked />
+                    Remember me on this device
+                </label>
+
+                <button type="submit" id="loginBtn">Continue</button>
+                <div id="loginError" role="alert" aria-live="polite"></div>
+            </form>
+        </div>
+    </div>
+
     <div id="dt_contenedor">
         <div class="page-header">
             <h1>TWEVE LIVE TV FREE</h1>
@@ -110,6 +151,39 @@
                 </div>
                 <div class="channel" data-src="https://ec3b4b7e.wurl.com/manifest/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X05FV0tNT1ZJRVNfSExT/348da8bd-839c-4e5e-ac5c-d053218f5fb5/2.m3u8" data-alt="Korean Movies">
                     <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:GcTJwchmh5a03i13DkiCJzSL90CfAs0kxdcjPw&s" alt="Korean Movies" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Movies Channels -->
+        <div class="channel-section" id="movies">
+            <h2>Movies</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://streams2.sofast.tv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/06862a07-6a92-4b4d-abc3-5fea131713b5/42a1946c-9002-4b2b-b0cf-ac5a54946f7a/0.m3u8" data-alt="KIX Movies">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/unnamed-1-1.jpg" alt="KIX Movies" />
+                </div>
+                <div class="channel" data-src="https://apollo.production-public.tubi.io/live/ac-afv.m3u8" data-alt="AFV Movies">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/images-7.png" alt="AFV Movies" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Games Channels -->
+        <div class="channel-section" id="games">
+            <h2>Games</h2>
+            <div class="channels">
+                <div class="channel" data-src="https://apollo.production-public.tubi.io/live/ac-mr-beast.m3u8" data-alt="Gaming & Challenges">
+                    <img decoding="async" src="https://enjoysurfing.online/wp-content/uploads/2025/03/MrBeast-Logo-1.webp" alt="Gaming & Challenges" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 18+ Channels -->
+        <div class="channel-section" id="adult">
+            <h2>18+</h2>
+            <div class="channels">
+                <div class="channel adult" data-src="https://1180885077.rsc.cdn77.org/HLS/BOXINGTV_v0.m3u8" data-alt="Adult Action">
+                    <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3RyYjwVRpBZ0clJiWO5ZYlwLzJryHHpKT3Q&s" alt="Adult Action" />
                 </div>
             </div>
         </div>
