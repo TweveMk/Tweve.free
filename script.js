@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const sideMenu = document.getElementById('sideMenu');
     const backdrop = document.getElementById('backdrop');
     const loginModal = document.getElementById('loginModal');
+    const paymentModal = document.getElementById('paymentModal');
+    const paymentClose = document.getElementById('paymentClose');
+    const planButtons = document.querySelectorAll('.plan-btn');
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
     const authAction = document.getElementById('authAction');
+    const packageStatus = document.getElementById('packageStatus');
     // rememberMe removed: we now always persist once in localStorage
 
     function getStoredUser() {
@@ -47,6 +51,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function formatDate(ts) {
+        const d = new Date(ts);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function updatePackageUI() {
+        if (!packageStatus) return;
+        const pkg = getPackage();
+        if (pkg && Date.now() < pkg.expiresAt) {
+            packageStatus.textContent = `${pkg.name} · until ${formatDate(pkg.expiresAt)}`;
+        } else {
+            packageStatus.textContent = 'No package';
+        }
+    }
+
     function showMenu(show) {
         if (!sideMenu || !backdrop) return;
         if (show) {
@@ -78,6 +97,61 @@ document.addEventListener('DOMContentLoaded', () => {
             backdrop.style.display = 'none';
             loginModal.setAttribute('aria-hidden', 'true');
         }
+    }
+
+    function showPayment(show) {
+        if (!paymentModal || !backdrop) return;
+        if (show) {
+            paymentModal.hidden = false;
+            paymentModal.style.display = 'grid';
+            backdrop.hidden = false;
+            backdrop.style.display = 'block';
+            paymentModal.setAttribute('aria-hidden', 'false');
+        } else {
+            paymentModal.hidden = true;
+            paymentModal.style.display = 'none';
+            backdrop.hidden = true;
+            backdrop.style.display = 'none';
+            paymentModal.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    // Package storage
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        const expires = "expires="+ d.toUTCString();
+        document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+    }
+
+    function getCookie(name) {
+        const cname = name + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1);
+            if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+        }
+        return "";
+    }
+
+    function getPackage() {
+        try {
+            const p = localStorage.getItem('tw_package');
+            return p ? JSON.parse(p) : null;
+        } catch { return null; }
+    }
+
+    function setPackage(pkg) {
+        localStorage.setItem('tw_package', JSON.stringify(pkg));
+        setCookie('tw_package', JSON.stringify(pkg), 400);
+    }
+
+    function hasActivePackage() {
+        const pkg = getPackage();
+        if (!pkg) return false;
+        return Date.now() < pkg.expiresAt;
     }
 
     function validatePhone(value) {
@@ -131,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (backdrop) backdrop.addEventListener('click', () => {
         showMenu(false);
         showLogin(false);
+        showPayment(false);
     });
 
     // Menu link scroll and category toggling
@@ -157,6 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const target = link.getAttribute('data-target');
+            // Gate Movies and Adult by package
+            if ((target === 'movies' || target === 'adult') && !hasActivePackage()) {
+                showPayment(true);
+                return;
+            }
             setCategoryVisible(target);
             const section = document.getElementById(target);
             if (section) {
@@ -165,6 +245,23 @@ document.addEventListener('DOMContentLoaded', () => {
             showMenu(false);
         });
     });
+
+    // Handle selecting a plan (simulate payment + verification)
+    planButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const name = btn.getAttribute('data-plan');
+            const days = parseInt(btn.getAttribute('data-days'), 10) || 1;
+            const price = btn.getAttribute('data-price');
+            const now = Date.now();
+            const expiresAt = now + days * 24 * 60 * 60 * 1000;
+            setPackage({ name, price, startedAt: now, expiresAt });
+            alert(`Malipo yamefanikiwa. Kifurushi: ${name}. Taarifa zimehifadhiwa kwenye kifaa chako (cookies & localStorage).`);
+            showPayment(false);
+            updatePackageUI();
+        });
+    });
+
+    if (paymentClose) paymentClose.addEventListener('click', () => showPayment(false));
 
     // Auth button
     if (authAction) {
@@ -227,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize auth state
     updateAuthUI();
+    updatePackageUI();
 
     // Play first channel by default only if logged in
     if (channels.length > 0 && isLoggedIn()) {

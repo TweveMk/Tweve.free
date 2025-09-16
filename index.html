@@ -15,7 +15,10 @@
     <div id="topbar">
         <button id="menuToggle" aria-label="Open menu">☰</button>
         <div class="topbar-title">TWEVE</div>
-        <button id="authAction" aria-label="Login">Login</button>
+        <div class="topbar-right">
+            <span id="packageStatus" title="Package status"></span>
+            <button id="authAction" aria-label="Login">Login</button>
+        </div>
     </div>
 
     <nav id="sideMenu" aria-hidden="true">
@@ -45,6 +48,27 @@
                 <button type="submit" id="loginBtn">Continue</button>
                 <div id="loginError" role="alert" aria-live="polite"></div>
             </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" aria-hidden="true" hidden>
+        <div class="modal-card">
+            <h3>Vifurushi</h3>
+            <p>Chagua kifurushi ili kufungua Movies na 18+</p>
+            <div class="plans">
+                <button class="plan-btn" data-plan="Kituro" data-days="3" data-price="1000">Kituro — 3 days — Tsh 1000</button>
+                <button class="plan-btn" data-plan="Serengeti" data-days="7" data-price="1500">Serengeti — 7 days — Tsh 1500</button>
+                <button class="plan-btn" data-plan="Mikumi" data-days="14" data-price="3000">Mikumi — 2 weeks — Tsh 3000</button>
+                <button class="plan-btn" data-plan="Manyara" data-days="30" data-price="5000">Manyara — 1 month — Tsh 5000</button>
+                <button class="plan-btn" data-plan="Saadan" data-days="180" data-price="10000">Saadan — 6 months — Tsh 10000</button>
+                <button class="plan-btn" data-plan="Kigoma" data-days="365" data-price="20000">Kigoma — 1 year — Tsh 20000</button>
+            </div>
+            <div class="payment-hint">Baada ya malipo kuthibitishwa, kifurushi chako kitawekwa kwenye kifaa hiki.
+                Taarifa itahifadhiwa kwenye cookies na localStorage.</div>
+            <div class="actions">
+                <button id="paymentClose">Close</button>
+            </div>
         </div>
     </div>
 
