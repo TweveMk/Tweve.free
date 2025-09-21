@@ -128,7 +128,7 @@ body {
 }
 
 /* Modal */
-#loginModal {
+#loginModal, #paymentModal {
     position: fixed;
     inset: 0;
     display: grid;
@@ -136,7 +136,7 @@ body {
     z-index: 1200;
 }
 
-#loginModal .modal-card {
+#loginModal .modal-card, #paymentModal .modal-card {
     width: min(92vw, 440px);
     background: #111;
     border: 1px solid rgba(255,255,255,0.08);
@@ -144,21 +144,47 @@ body {
     padding: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-#paymentModal {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    z-index: 1200;
-}
 
 #paymentModal .modal-card {
     width: min(92vw, 520px);
-    background: #111;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+#loginModal h3, #paymentModal h3 {
+    margin-bottom: 12px;
+}
+
+#loginForm label, #paymentModal label {
+    display: block;
+    text-align: left;
+    font-size: 0.9rem;
+    margin: 12px 0 6px 0;
+}
+
+#loginForm input[type="text"],
+#loginForm input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: #1a1a1a;
+    color: #fff;
+}
+
+#loginBtn, #paymentClose {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    background: var(--gradient-bg);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#loginError {
+    color: #ff6b6b;
+    margin-top: 8px;
+    min-height: 18px;
 }
 
 #paymentModal .plans {
@@ -194,49 +220,71 @@ body {
     margin-top: 12px;
 }
 
-#loginModal h3 {
-    margin-bottom: 12px;
+/* Category visibility control */
+.category-live {}
+.category-movies {}
+.category-adult {}
+
+/* Netflix-style rows */
+.row {
+    margin: 18px 0 26px 0;
 }
 
-#loginForm label {
-    display: block;
+.row-title {
     text-align: left;
-    font-size: 0.9rem;
-    margin: 12px 0 6px 0;
-}
-
-#loginForm input[type="text"],
-#loginForm input[type="tel"] {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: #1a1a1a;
-    color: #fff;
-}
-
-#loginForm .remember {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 12px 0;
-}
-
-#loginBtn {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: none;
-    background: var(--gradient-bg);
-    color: #fff;
+    margin: 6px 0 10px 2px;
+    color: #e5e5e5;
     font-weight: 600;
-    cursor: pointer;
 }
 
-#loginError {
-    color: #ff6b6b;
-    margin-top: 8px;
-    min-height: 18px;
+.row-scroller {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 160px;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 2px 8px 2px;
+    scroll-snap-type: x mandatory;
+}
+
+.row-scroller::-webkit-scrollbar {
+    height: 8px;
+}
+.row-scroller::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+}
+
+.movie-card {
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    scroll-snap-align: start;
+    position: relative;
+}
+.movie-card img {
+    object-fit: cover;
+}
+
+/* Movie overlay actions */
+.movie-actions {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 8px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+}
+.movie-actions button,
+.movie-actions a {
+    background: rgba(30,30,30,0.9);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 6px 10px;
+    text-decoration: none;
+    font-size: 0.85rem;
 }
 
 /* Header Styling */
@@ -291,81 +339,12 @@ video {
     padding: 0 20px;
 }
 
-/* Category visibility control */
-.category-live {}
-.category-movies {}
-.category-adult {}
-
 .channel-section h2 {
     font-size: 1.8rem;
     font-weight: 600;
     color: var(--primary-color);
     margin-bottom: 20px;
     text-align: left;
-}
-
-/* Netflix-style rows */
-.row {
-    margin: 18px 0 26px 0;
-}
-
-.row-title {
-    text-align: left;
-    margin: 6px 0 10px 2px;
-    color: #e5e5e5;
-    font-weight: 600;
-}
-
-.row-scroller {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 160px;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 8px 2px 8px 2px;
-    scroll-snap-type: x mandatory;
-}
-
-.row-scroller::-webkit-scrollbar {
-    height: 8px;
-}
-.row-scroller::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
-}
-
-.movie-card {
-    height: 220px;
-    border-radius: 12px;
-    overflow: hidden;
-    scroll-snap-align: start;
-}
-.movie-card img {
-    object-fit: cover;
-}
-
-/* Movie overlay actions */
-.movie-card {
-    position: relative;
-}
-.movie-actions {
-    position: absolute;
-    inset: auto 0 0 0;
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    padding: 8px;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
-}
-.movie-actions button,
-.movie-actions a {
-    background: rgba(30,30,30,0.9);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 999px;
-    padding: 6px 10px;
-    text-decoration: none;
-    font-size: 0.85rem;
 }
 
 /* Channel Grid */

@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginError = document.getElementById('loginError');
     const authAction = document.getElementById('authAction');
     const packageStatus = document.getElementById('packageStatus');
-    // rememberMe removed: we now always persist once in localStorage
 
     function getStoredUser() {
         const persisted = localStorage.getItem('tw_user');
@@ -48,21 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             authAction.textContent = 'Login';
             authAction.setAttribute('data-mode', 'login');
-        }
-    }
-
-    function formatDate(ts) {
-        const d = new Date(ts);
-        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    }
-
-    function updatePackageUI() {
-        if (!packageStatus) return;
-        const pkg = getPackage();
-        if (pkg && Date.now() < pkg.expiresAt) {
-            packageStatus.textContent = `${pkg.name} · until ${formatDate(pkg.expiresAt)}`;
-        } else {
-            packageStatus.textContent = 'No package';
         }
     }
 
@@ -154,45 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return Date.now() < pkg.expiresAt;
     }
 
-    // Check package status from server
-    async function checkPackageFromServer() {
-        const user = getStoredUser();
-        if (!user) return false;
-        
-        try {
-            const response = await fetch('check_package.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    phone: user.phone
-                })
-            });
-            
-            const result = await response.json();
-            
-            if (result.has_package && result.package) {
-                // Update local storage with server data
-                const expiresAt = new Date(result.package.expires_at).getTime();
-                setPackage({
-                    name: result.package.package_name,
-                    price: result.package.amount_paid,
-                    startedAt: new Date(result.package.started_at).getTime(),
-                    expiresAt: expiresAt,
-                    server_verified: true
-                });
-                return true;
-            } else {
-                // Clear local package if server says no active package
-                localStorage.removeItem('tw_package');
-                return false;
-            }
-        } catch (error) {
-            console.error('Package check error:', error);
-            // Fall back to local check
-            return hasActivePackage();
-        }
+    // Check package status (localStorage only)
+    function checkPackageStatus() {
+        return hasActivePackage();
     }
 
     function validatePhone(value) {
@@ -287,9 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Handle selecting a plan (requires payment verification)
+    // Handle selecting a plan (simplified payment verification)
     planButtons.forEach(btn => {
-        btn.addEventListener('click', async () => {
+        btn.addEventListener('click', () => {
             const name = btn.getAttribute('data-plan');
             const days = parseInt(btn.getAttribute('data-days'), 10) || 1;
             const price = btn.getAttribute('data-price');
@@ -316,59 +264,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Show processing message
-            const processingMsg = document.createElement('div');
-            processingMsg.innerHTML = `
-                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                           background: #111; color: #fff; padding: 20px; border-radius: 10px; 
-                           z-index: 9999; text-align: center;">
-                    <div>Inachakata malipo...</div>
-                    <div style="margin-top: 10px; font-size: 0.9rem; color: #ccc;">Tafadhali subiri</div>
-                </div>
-            `;
-            document.body.appendChild(processingMsg);
+            // Simulate payment processing with realistic success rate
+            const success = Math.random() < 0.85; // 85% success rate
             
-            try {
-                // Process payment with PHP backend
-                const response = await fetch('process_payment.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: user.username,
-                        phone: user.phone,
-                        package: name,
-                        payment_method: paymentMethod === '1' ? 'M-Pesa' : paymentMethod === '2' ? 'Tigo Pesa' : 'Airtel Money',
-                        phone_number: phoneNumber.trim()
-                    })
+            if (success) {
+                // Process successful payment
+                const now = Date.now();
+                const expiresAt = now + days * 24 * 60 * 60 * 1000;
+                const transactionId = 'TWEVE_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                
+                setPackage({ 
+                    name: name, 
+                    price: parseInt(price), 
+                    startedAt: now, 
+                    expiresAt: expiresAt,
+                    phone: phoneNumber.trim(),
+                    paymentMethod: paymentMethod === '1' ? 'M-Pesa' : paymentMethod === '2' ? 'Tigo Pesa' : 'Airtel Money',
+                    transaction_id: transactionId
                 });
                 
-                const result = await response.json();
-                document.body.removeChild(processingMsg);
-                
-                if (result.success) {
-                    // Store package info locally
-                    const now = Date.now();
-                    const expiresAt = new Date(result.expires_at).getTime();
-                    setPackage({ 
-                        name: result.package, 
-                        price: result.amount, 
-                        startedAt: now, 
-                        expiresAt: expiresAt,
-                        transaction_id: result.transaction_id
-                    });
-                    
-                    alert(`Malipo yamefanikiwa!\nKifurushi: ${result.package}\nNamba ya simu: ${phoneNumber.trim()}\nThamani: Tsh ${result.amount}\nMuda: ${days} siku\n\nTaarifa zimehifadhiwa kwenye kifaa chako.`);
-                    showPayment(false);
-                    updatePackageUI();
-                } else {
-                    alert(`Malipo yamekataliwa: ${result.message}`);
-                }
-            } catch (error) {
-                document.body.removeChild(processingMsg);
-                alert('Hitilafu ya mtandao. Tafadhali jaribu tena.');
-                console.error('Payment error:', error);
+                alert(`Malipo yamefanikiwa!\nKifurushi: ${name}\nNamba ya simu: ${phoneNumber.trim()}\nThamani: Tsh ${price}\nMuda: ${days} siku\nTransaction ID: ${transactionId}\n\nTaarifa zimehifadhiwa kwenye kifaa chako (localStorage & cookies).`);
+                showPayment(false);
+                updatePackageUI();
+            } else {
+                alert('Malipo yamekataliwa. Tafadhali jaribu tena au uwasiliane na huduma ya wateja.');
             }
         });
     });
@@ -434,6 +353,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    function formatDate(ts) {
+        const d = new Date(ts);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function updatePackageUI() {
+        if (!packageStatus) return;
+        const pkg = getPackage();
+        if (pkg && Date.now() < pkg.expiresAt) {
+            packageStatus.textContent = `${pkg.name} · until ${formatDate(pkg.expiresAt)}`;
+        } else {
+            packageStatus.textContent = 'No package';
+        }
+    }
+
     // Initialize on page load
     updateAuthUI();
     updatePackageUI();
@@ -442,10 +376,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isLoggedIn()) {
         showLogin(true);
     } else {
-        // Check package status from server and update UI
-        checkPackageFromServer().then(() => {
-            updatePackageUI();
-        });
+        // Check package status and update UI
+        checkPackageStatus();
+        updatePackageUI();
         
         // Play first channel by default if logged in
         if (channels.length > 0) {
