@@ -154,6 +154,47 @@ document.addEventListener('DOMContentLoaded', () => {
         return Date.now() < pkg.expiresAt;
     }
 
+    // Check package status from server
+    async function checkPackageFromServer() {
+        const user = getStoredUser();
+        if (!user) return false;
+        
+        try {
+            const response = await fetch('check_package.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: user.phone
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.has_package && result.package) {
+                // Update local storage with server data
+                const expiresAt = new Date(result.package.expires_at).getTime();
+                setPackage({
+                    name: result.package.package_name,
+                    price: result.package.amount_paid,
+                    startedAt: new Date(result.package.started_at).getTime(),
+                    expiresAt: expiresAt,
+                    server_verified: true
+                });
+                return true;
+            } else {
+                // Clear local package if server says no active package
+                localStorage.removeItem('tw_package');
+                return false;
+            }
+        } catch (error) {
+            console.error('Package check error:', error);
+            // Fall back to local check
+            return hasActivePackage();
+        }
+    }
+
     function validatePhone(value) {
         // Basic international format or local digits (7-15 digits)
         const cleaned = value.trim();
@@ -246,18 +287,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Handle selecting a plan (simulate payment + verification)
+    // Handle selecting a plan (requires payment verification)
     planButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
             const name = btn.getAttribute('data-plan');
             const days = parseInt(btn.getAttribute('data-days'), 10) || 1;
             const price = btn.getAttribute('data-price');
-            const now = Date.now();
-            const expiresAt = now + days * 24 * 60 * 60 * 1000;
-            setPackage({ name, price, startedAt: now, expiresAt });
-            alert(`Malipo yamefanikiwa. Kifurushi: ${name}. Taarifa zimehifadhiwa kwenye kifaa chako (cookies & localStorage).`);
-            showPayment(false);
-            updatePackageUI();
+            
+            // Show payment form
+            const paymentMethod = prompt(`Chagua njia ya malipo:\n1. M-Pesa\n2. Tigo Pesa\n3. Airtel Money\n\nKifurushi: ${name} - Tsh ${price}\n\nAndika namba 1, 2, au 3:`);
+            
+            if (!paymentMethod || !['1', '2', '3'].includes(paymentMethod.trim())) {
+                alert('Malipo yamekataliwa. Tafadhali chagua njia ya malipo sahihi.');
+                return;
+            }
+            
+            const phoneNumber = prompt(`Ingiza namba ya simu yako (${paymentMethod === '1' ? 'M-Pesa' : paymentMethod === '2' ? 'Tigo Pesa' : 'Airtel Money'}):`);
+            
+            if (!phoneNumber || phoneNumber.trim().length < 10) {
+                alert('Namba ya simu si sahihi. Tafadhali ingiza namba sahihi.');
+                return;
+            }
+            
+            // Get current user info
+            const user = getStoredUser();
+            if (!user) {
+                alert('Tafadhali ingia kwanza.');
+                return;
+            }
+            
+            // Show processing message
+            const processingMsg = document.createElement('div');
+            processingMsg.innerHTML = `
+                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           background: #111; color: #fff; padding: 20px; border-radius: 10px; 
+                           z-index: 9999; text-align: center;">
+                    <div>Inachakata malipo...</div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: #ccc;">Tafadhali subiri</div>
+                </div>
+            `;
+            document.body.appendChild(processingMsg);
+            
+            try {
+                // Process payment with PHP backend
+                const response = await fetch('process_payment.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: user.username,
+                        phone: user.phone,
+                        package: name,
+                        payment_method: paymentMethod === '1' ? 'M-Pesa' : paymentMethod === '2' ? 'Tigo Pesa' : 'Airtel Money',
+                        phone_number: phoneNumber.trim()
+                    })
+                });
+                
+                const result = await response.json();
+                document.body.removeChild(processingMsg);
+                
+                if (result.success) {
+                    // Store package info locally
+                    const now = Date.now();
+                    const expiresAt = new Date(result.expires_at).getTime();
+                    setPackage({ 
+                        name: result.package, 
+                        price: result.amount, 
+                        startedAt: now, 
+                        expiresAt: expiresAt,
+                        transaction_id: result.transaction_id
+                    });
+                    
+                    alert(`Malipo yamefanikiwa!\nKifurushi: ${result.package}\nNamba ya simu: ${phoneNumber.trim()}\nThamani: Tsh ${result.amount}\nMuda: ${days} siku\n\nTaarifa zimehifadhiwa kwenye kifaa chako.`);
+                    showPayment(false);
+                    updatePackageUI();
+                } else {
+                    alert(`Malipo yamekataliwa: ${result.message}`);
+                }
+            } catch (error) {
+                document.body.removeChild(processingMsg);
+                alert('Hitilafu ya mtandao. Tafadhali jaribu tena.');
+                console.error('Payment error:', error);
+            }
         });
     });
 
@@ -322,14 +434,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initialize auth state
+    // Initialize on page load
     updateAuthUI();
     updatePackageUI();
-
-    // Play first channel by default only if logged in
-    if (channels.length > 0 && isLoggedIn()) {
-        playStream(channels[0].getAttribute('data-src'));
-    } else if (!isLoggedIn()) {
+    
+    // Only show login if not already logged in
+    if (!isLoggedIn()) {
         showLogin(true);
+    } else {
+        // Check package status from server and update UI
+        checkPackageFromServer().then(() => {
+            updatePackageUI();
+        });
+        
+        // Play first channel by default if logged in
+        if (channels.length > 0) {
+            playStream(channels[0].getAttribute('data-src'));
+        }
     }
 });
