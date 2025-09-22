@@ -12,66 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <div id="topbar">
-        <button id="menuToggle" aria-label="Open menu">☰</button>
-        <div class="topbar-title">TWEVE</div>
-        <div class="topbar-right">
-            <span id="packageStatus" title="Package status"></span>
-            <button id="authAction" aria-label="Login">Login</button>
-        </div>
-    </div>
-
-    <nav id="sideMenu" aria-hidden="true">
-        <div class="sideMenu-header">
-            <span>Categories</span>
-            <button id="menuClose" aria-label="Close menu">×</button>
-        </div>
-        <ul>
-            <li><a href="#live-tv" data-target="live-tv">Live TV</a></li>
-            <li><a href="#movies" data-target="movies">Movies</a></li>
-            <li><a href="#adult" data-target="adult">18+</a></li>
-        </ul>
-    </nav>
-    <div id="backdrop" hidden></div>
-
-    <!-- Login Modal -->
-    <div id="loginModal" aria-hidden="true" hidden>
-        <div class="modal-card">
-            <h3>Login</h3>
-            <form id="loginForm">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter username" required />
-
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="e.g. +2348012345678" required />
-
-                <button type="submit" id="loginBtn">Continue</button>
-                <div id="loginError" role="alert" aria-live="polite"></div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Payment Modal -->
-    <div id="paymentModal" aria-hidden="true" hidden>
-        <div class="modal-card">
-            <h3>Vifurushi</h3>
-            <p>Chagua kifurushi ili kufungua Movies na 18+</p>
-            <div class="plans">
-                <button class="plan-btn" data-plan="Kituro" data-days="3" data-price="1000">Kituro — 3 days — Tsh 1000</button>
-                <button class="plan-btn" data-plan="Serengeti" data-days="7" data-price="1500">Serengeti — 7 days — Tsh 1500</button>
-                <button class="plan-btn" data-plan="Mikumi" data-days="14" data-price="3000">Mikumi — 2 weeks — Tsh 3000</button>
-                <button class="plan-btn" data-plan="Manyara" data-days="30" data-price="5000">Manyara — 1 month — Tsh 5000</button>
-                <button class="plan-btn" data-plan="Saadan" data-days="180" data-price="10000">Saadan — 6 months — Tsh 10000</button>
-                <button class="plan-btn" data-plan="Kigoma" data-days="365" data-price="20000">Kigoma — 1 year — Tsh 20000</button>
-            </div>
-            <div class="payment-hint">Baada ya malipo kuthibitishwa, kifurushi chako kitawekwa kwenye kifaa hiki.
-                Taarifa itahifadhiwa kwenye cookies na localStorage.</div>
-            <div class="actions">
-                <button id="paymentClose">Close</button>
-            </div>
-        </div>
-    </div>
-
     <div id="dt_contenedor">
         <div class="page-header">
             <h1>TWEVE LIVE TV FREE</h1>
@@ -81,11 +21,8 @@
             <video id="video" controls></video>
         </div>
 
-        <!-- Live TV anchor -->
-        <div id="live-tv"></div>
-
         <!-- Sports Channels -->
-        <div class="channel-section category-live">
+        <div class="channel-section">
             <h2>Sports</h2>
             <div class="channels">
                 <div class="channel" data-src="https://spstr.abntv.live/hls/psstream.m3u8" data-alt="Sports TV">
@@ -116,7 +53,7 @@
         </div>
 
         <!-- News Channels -->
-        <div class="channel-section category-live">
+        <div class="channel-section">
             <h2>News</h2>
             <div class="channels">
                 <div class="channel" data-src="https://live-hls-web-aje.getaj.net/AJE/index.m3u8" data-alt="Aljazeera">
@@ -144,7 +81,7 @@
         </div>
 
         <!-- Entertainment Channels -->
-        <div class="channel-section category-live">
+        <div class="channel-section">
             <h2>Entertainment</h2>
             <div class="channels">
                 <div class="channel" data-src="https://goliveafrica.media:9998/live/625965017ed69/index.m3u8" data-alt="Dodoma TV">
@@ -178,7 +115,7 @@
         </div>
 
         <!-- Kids & Family Channels -->
-        <div class="channel-section category-live">
+        <div class="channel-section">
             <h2>Kids & Family</h2>
             <div class="channels">
                 <div class="channel" data-src="https://fl5.moveonjoy.com/DISNEY/tracks-v1a1/mono.ts.m3u8" data-alt="Disney Channel">
@@ -197,7 +134,7 @@
         </div>
 
         <!-- Lifestyle & Nature Channels -->
-        <div class="channel-section category-live">
+        <div class="channel-section">
             <h2>Lifestyle & Nature</h2>
             <div class="channels">
                 <div class="channel" data-src="https://fl1.moveonjoy.com/LOVE_NATURE/tracks-v1a1/mono.m3u8" data-alt="Love Nature">
@@ -210,98 +147,11 @@
         </div>
 
         <!-- Bollywood Channels -->
-        <div class="channel-section category-live">
+        <div class="channel-section">
             <h2>Bollywood</h2>
             <div class="channels">
                 <div class="channel" data-src="https://shls-mbcbollywood-prod-dub.shahid.net/out/v1/a79c9d7ef2a64a54a64d5c4567b3462a/index.m3u8" data-alt="MBC Bollywood">
                     <img decoding="async" src="https://i1.sndcdn.com/avatars-000393801480-ppmlje-t1080x1080.jpg" alt="MBC Bollywood" />
-                </div>
-            </div>
-        </div>
-
-        <!-- Movies -->
-        <div class="channel-section category-movies" id="movies">
-            <h2>Movies</h2>
-
-            <div class="row">
-                <div class="row-title">For You</div>
-                <div class="row-scroller">
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/6ae044c0-692f-40bd-95c5-0c99ab30f27a/playlist.m3u8" data-alt="Deep cover">
-                        <img decoding="async" src="https://i.ibb.co/zhZY2mC0/x.jpg" alt="Deep cover" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/6ae044c0-692f-40bd-95c5-0c99ab30f27a/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/90a38928-5c11-4526-ba09-02a02b5dbc85/playlist.m3u8" data-alt="SuperMan (Imetafsiriwa)">
-                        <img decoding="async" src="https://i.ibb.co/zhZY2mC0/x.jpg" alt="SuperMan (Imetafsiriwa)" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/90a38928-5c11-4526-ba09-02a02b5dbc85/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/bb20ea3c-7f75-499c-9e92-eb0ac3ae1a2d/playlist.m3u8" data-alt="Off the Grind">
-                        <img decoding="async" src="https://i.ibb.co/KpYny5HT/x.jpg" alt="Off the Grind" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/bb20ea3c-7f75-499c-9e92-eb0ac3ae1a2d/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/6f50dd95-476a-489a-9e85-3347c57e5586/playlist.m3u8" data-alt="THUNDERBOLTS">
-                        <img decoding="async" src="https://i.ibb.co/mCYRvz1Q/x.jpg" alt="THUNDERBOLTS" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/6f50dd95-476a-489a-9e85-3347c57e5586/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="row-title">All Movies</div>
-                <div class="row-scroller">
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/6ae044c0-692f-40bd-95c5-0c99ab30f27a/playlist.m3u8" data-alt="Deep cover">
-                        <img decoding="async" src="https://i.ibb.co/zhZY2mC0/x.jpg" alt="Deep cover" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/6ae044c0-692f-40bd-95c5-0c99ab30f27a/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/90a38928-5c11-4526-ba09-02a02b5dbc85/playlist.m3u8" data-alt="SuperMan (Imetafsiriwa)">
-                        <img decoding="async" src="https://i.ibb.co/zhZY2mC0/x.jpg" alt="SuperMan (Imetafsiriwa)" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/90a38928-5c11-4526-ba09-02a02b5dbc85/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/bb20ea3c-7f75-499c-9e92-eb0ac3ae1a2d/playlist.m3u8" data-alt="Off the Grind">
-                        <img decoding="async" src="https://i.ibb.co/KpYny5HT/x.jpg" alt="Off the Grind" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/bb20ea3c-7f75-499c-9e92-eb0ac3ae1a2d/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/6f50dd95-476a-489a-9e85-3347c57e5586/playlist.m3u8" data-alt="THUNDERBOLTS">
-                        <img decoding="async" src="https://i.ibb.co/mCYRvz1Q/x.jpg" alt="THUNDERBOLTS" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/6f50dd95-476a-489a-9e85-3347c57e5586/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/6f50dd95-476a-489a-9e85-3347c57e5586/playlist.m3u8" data-alt="Heard of State">
-                        <img decoding="async" src="https://i.ibb.co/xKY7mg0m/x.jpg" alt="Heard of State" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/6f50dd95-476a-489a-9e85-3347c57e5586/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                    <div class="channel movie-card" data-src="https://vz-1bb50f2e-8ea.b-cdn.net/bde45d25-32bb-44cc-b00b-945ea7423c7d/playlist.m3u8" data-alt="SHADOW FORCE">
-                        <img decoding="async" src="https://i.ibb.co/ZpJtxPVm/x.jpg" alt="SHADOW FORCE" />
-                        <div class="movie-actions">
-                            <a class="movie-download" href="https://vz-1bb50f2e-8ea.b-cdn.net/bde45d25-32bb-44cc-b00b-945ea7423c7d/playlist.m3u8" download>Download</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 18+ Channels -->
-        <div class="channel-section category-adult" id="adult">
-            <h2>18+</h2>
-            <div class="channels">
-                <div class="channel adult" data-src="https://1180885077.rsc.cdn77.org/HLS/BOXINGTV_v0.m3u8" data-alt="Adult Action">
-                    <img decoding="async" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3RyYjwVRpBZ0clJiWO5ZYlwLzJryHHpKT3Q&s" alt="Adult Action" />
                 </div>
             </div>
         </div>
